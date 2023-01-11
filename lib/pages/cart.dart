@@ -1,5 +1,7 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:project/pages/purpose.dart';
+
 
 import '../module/getposts.dart';
 import '../networkerhelper.dart';
@@ -47,93 +49,87 @@ class _Page2State extends State<Page2> {
             fontWeight: FontWeight.w500,
             letterSpacing: .0,
           ),
-        
         ),
-        
       ),
-    
       backgroundColor: Color.fromARGB(255, 245, 252, 253),
-      
-      body: Container(
-        
-        child: ListView.builder(
-          itemCount: posts?.length,
-          itemBuilder: (context, index) {
-            
-            return Container(
-              
-              margin: EdgeInsets.all(20),
-              child: Material(
-                elevation: 5.0,
-                shadowColor: Colors.blueGrey,
-                child: Container(
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    tileColor: Colors.white,
-                    leading: SizedBox(
-                      child: Image.asset('images/flower.png'),
-                    ),
-                    title: Container(
-                      child: Text(
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 18,
+      body: Visibility(
+        visible: isLoaded,
+        child: Container(
+          child: ListView.builder(
+            itemCount: posts?.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.all(20),
+                child: Material(
+                  elevation: 5.0,
+                  shadowColor: Colors.blueGrey,
+                  child: Container(
+                    height: 100,
+                    alignment: Alignment.center,
+                    child: ListTile(
+                      tileColor: Colors.white,
+                      leading: SizedBox(
+                          width: 60,
+                          height: 60,
+                          //child: Image.asset('images/flower.png'),
+                          child: Image.network(
+                              'http://mark.bslmeiyu.com/uploads/${posts![index].img}')),
+                      title: Container(
+                        child: Text(
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 18,
 
-                          // backgroundColor: Color.fromARGB(255, 66, 66, 66),
+                            // backgroundColor: Color.fromARGB(255, 66, 66, 66),
+                          ),
+                          posts![index].name ?? 'No Data',
                         ),
-                        posts![index].name ?? 'No Data',
                       ),
-                    ),
-                    subtitle: Row(
-                      children: [
-                        Text(
-                          'Rs. ',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 19, 107, 189),
-                            fontSize: 18,
+                      subtitle: Row(
+                        children: [
+                          Text(
+                            'Rs. ',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 19, 107, 189),
+                              fontSize: 18,
 
-                            // backgroundColor: Color.fromARGB(255, 66, 66, 66),
+                              // backgroundColor: Color.fromARGB(255, 66, 66, 66),
+                            ),
                           ),
-                        ),
-                        Text(
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 19, 107, 189),
-                            fontSize: 18,
+                          Text(
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 19, 107, 189),
+                              fontSize: 18,
 
-                            // backgroundColor: Color.fromARGB(255, 66, 66, 66),
+                              // backgroundColor: Color.fromARGB(255, 66, 66, 66),
+                            ),
+                            posts![index].price.toString(),
                           ),
-                          posts![index].price.toString(),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProductDetail(index)),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          color: Color.fromARGB(255, 19, 96, 196),
                         ),
-                        
-                      ],
-                      
-                    ),
-                    trailing: IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProductDetail()),
-                        );
-                      },
-                      icon: Icon(
-                        Icons.arrow_forward,
-                        color: Color.fromARGB(255, 19, 96, 196),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-          
+              );
+            },
+          ),
         ),
-        
+        replacement: Center(child: CircularProgressIndicator()),
       ),
-         
     );
-    
   }
 }
 
@@ -154,7 +150,6 @@ class SecondRoute extends StatelessWidget {
           child: const Text('Go back!'),
         ),
       ),
-      
     );
   }
 }
